@@ -23,12 +23,14 @@
   "homepage": "https://github.com/dilpreetdhiman56/library-management-system#readme",
   "dependencies": {
     "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
     "firebase-admin": "^13.6.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
+    "@types/express-rate-limit": "^5.1.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
     "@types/supertest": "^6.0.3",
