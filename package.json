@@ -23,6 +23,7 @@
   "homepage": "https://github.com/dilpreetdhiman56/library-management-system#readme",
   "dependencies": {
     "express": "^5.1.0",
+    "firebase-admin": "^13.6.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
