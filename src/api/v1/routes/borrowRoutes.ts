@@ -2,6 +2,8 @@ import { Router } from "express";
 import { getAllBorrowsController, 
     borrowBookController, returnBookController } from "../controllers/borrowController";
 
+import authenticate from "../middleware/authenticate";
+
 const router = Router();
 
 /**
@@ -104,6 +106,6 @@ router.post("/borrow", borrowBookController);
  *       '404':
  *         description: Borrow record not found
  */
-router.post("/return", returnBookController);   
+router.post("/return", authenticate, returnBookController);   
 
 export default router;
