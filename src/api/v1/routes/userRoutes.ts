@@ -5,6 +5,10 @@ import {
   getUserByIdController
 } from "../controllers/userController";
 
+import { validateBody, validateParams } from "../middleware/validate";
+import { createUserSchema, idParamSchema } from "../validation/userSchemas";
+import authenticate from "../middleware/authenticate";
+
 const router = Router();
 
 /**
@@ -29,7 +33,7 @@ const router = Router();
  *                   items:
  *                     $ref: '#/components/schemas/User'
  */
-router.get("/users", getAllUsersController);
+router.get("/users",authenticate, getAllUsersController);
 
 /**
  * @openapi
@@ -60,7 +64,7 @@ router.get("/users", getAllUsersController);
  *       '404':
  *         description: User not found
  */
-router.get("/users/:id", getUserByIdController);
-router.post("/users/", createUserController);
+router.get("/users/:id",authenticate,validateParams(idParamSchema), getUserByIdController);
+router.post("/users/", validateBody(createUserSchema), createUserController);
 
 export default router;

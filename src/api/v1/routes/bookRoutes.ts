@@ -8,6 +8,8 @@ import {
 } from "../controllers/bookController";
 
 import authenticate from "../middleware/authenticate";
+import { validateBody, validateParams } from "../middleware/validate";
+import { createBookSchema, idParamSchema, updateBookSchema } from "../validation/bookSchemes";
 
 const router = Router();
 
@@ -56,7 +58,7 @@ const router = Router();
  *       '400':
  *         description: Invalid request body
  */
-router.post("/books", createBookController);
+router.post("/books", authenticate, validateBody(createBookSchema), createBookController);
 
 /**
  * @openapi
@@ -111,7 +113,7 @@ router.get("/books", getAllBooksController);
  *       '404':
  *         description: Book not found
  */
-router.get("/books/:id", getBookByIdController);
+router.get("/books/:id",validateParams(idParamSchema), getBookByIdController);
 
 /**
  * @openapi
@@ -165,7 +167,7 @@ router.get("/books/:id", getBookByIdController);
  *       '404':
  *         description: Book not found
  */
-router.put("/books/:id",authenticate,updateBookController);
+router.put("/books/:id",authenticate, validateBody(updateBookSchema), updateBookController);
 
 /**
  * @openapi
@@ -194,6 +196,6 @@ router.put("/books/:id",authenticate,updateBookController);
  *       '404':
  *         description: Book not found
  */
-router.delete("/books/:id",authenticate,deleteBookController);
+router.delete("/books/:id", authenticate, validateParams(idParamSchema), deleteBookController);
 
 export default router;
