@@ -14,4 +14,4 @@ const auth: Auth = getAuth();
 // This creates a Firestore instance that you can use to interact with your database
 const db: Firestore = getFirestore();
 
-export { db };
+export { auth, db };
