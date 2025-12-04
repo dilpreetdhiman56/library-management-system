@@ -5,6 +5,7 @@ import { getAllBorrowsController,
 import authenticate from "../middleware/authenticate";
 import { validateBody } from "../middleware/validate";
 import { createBorrowSchema } from "../validation/borrowSchemes";
+import isAuthorized from "../middleware/authorize";
 const router = Router();
 
 /**
@@ -29,8 +30,10 @@ const router = Router();
  *                   items:
  *                     $ref: '#/components/schemas/Borrow'
  */
-router.get("/borrow",authenticate, getAllBorrowsController); 
-
+router.get("/borrow", 
+    authenticate,
+    isAuthorized({ hasRole: ["Admin", "Librarian"] }),
+    getAllBorrowsController);
 /**
  * @openapi
  * /api/v1/borrow:
@@ -69,8 +72,9 @@ router.get("/borrow",authenticate, getAllBorrowsController);
  *       '400':
  *         description: Missing bookId or userId
  */
-router.post("/borrow", authenticate, validateBody(createBorrowSchema), borrowBookController);   
-
+router.post("/borrow", 
+    authenticate, 
+    validateBody(createBorrowSchema),borrowBookController);
 /**
  * @openapi
  * /api/v1/return:
@@ -107,6 +111,8 @@ router.post("/borrow", authenticate, validateBody(createBorrowSchema), borrowBoo
  *       '404':
  *         description: Borrow record not found
  */
-router.post("/return", authenticate, validateBody(createBorrowSchema), returnBookController);   
-
+router.post("/return", authenticate, 
+     isAuthorized({ hasRole: ["User"] }),  
+     validateBody(createBorrowSchema),
+     returnBookController);
 export default router;

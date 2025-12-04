@@ -8,6 +8,7 @@ import {
 import { validateBody, validateParams } from "../middleware/validate";
 import { createUserSchema, idParamSchema } from "../validation/userSchemas";
 import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 const router = Router();
 
@@ -33,8 +34,10 @@ const router = Router();
  *                   items:
  *                     $ref: '#/components/schemas/User'
  */
-router.get("/users",authenticate, getAllUsersController);
-
+router.get("/users", 
+  authenticate,
+  isAuthorized({ hasRole: ["Admin", "Librarian"] }),
+  getAllUsersController);
 /**
  * @openapi
  * /api/v1/users/{id}:
@@ -64,7 +67,14 @@ router.get("/users",authenticate, getAllUsersController);
  *       '404':
  *         description: User not found
  */
-router.get("/users/:id",authenticate,validateParams(idParamSchema), getUserByIdController);
-router.post("/users/", validateBody(createUserSchema), createUserController);
+router.get("/users/:id", 
+  authenticate,
+  isAuthorized({ hasRole: ["Admin", "Librarian"] }),
+  validateParams(idParamSchema),getUserByIdController);
 
+router.post("/users/", 
+  authenticate, 
+  isAuthorized({ hasRole: ["User"] }),
+  validateBody(createUserSchema),
+  createUserController)
 export default router;
