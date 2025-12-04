@@ -6,6 +6,7 @@ import authenticate from "../middleware/authenticate";
 import { validateBody } from "../middleware/validate";
 import { createBorrowSchema } from "../validation/borrowSchemes";
 import isAuthorized from "../middleware/authorize";
+import { limiter } from "../middleware/rateLimiter";
 const router = Router();
 
 /**
@@ -30,9 +31,9 @@ const router = Router();
  *                   items:
  *                     $ref: '#/components/schemas/Borrow'
  */
-router.get("/borrow", 
+router.get("/borrow",limiter, 
     authenticate,
-    isAuthorized({ hasRole: ["Admin", "Librarian"] }),
+    isAuthorized({ hasRole: ["User","Admin", "Librarian"] }),
     getAllBorrowsController);
 /**
  * @openapi
@@ -73,7 +74,10 @@ router.get("/borrow",
  *         description: Missing bookId or userId
  */
 router.post("/borrow", 
-    authenticate, 
+    limiter,
+    authenticate,
+    isAuthorized({ hasRole: ["User","Admin","Librarian"
+  ] }),
     validateBody(createBorrowSchema),borrowBookController);
 /**
  * @openapi
