@@ -89,3 +89,31 @@ Backend capstone project for a Library Management System built with
 * M4: Final demonstration
 * Issues: Issues will be created .
 * CI: linting workflows would be added (.github/workflows/linting)
+
+** How To Run This Project: **
+
+First Clone the Repo
+git clone (https://github.com/dilpreetdhiman56/library-management-system)
+
+Install the dependecies
+npm install
+
+Start the Server
+npm start
+
+Api Will Be working at:
+http://localhost:3000
+
+Swagger Docs is avaliable at this url:
+http://localhost:3000/api-docs
+
+** Documentation is also available on github pages.
+
+Firebase is used in this project 
+To Setup: 
+-Create Project 
+-Go to "Project Settings" 
+-Navigate to "Service Accounts" 
+-Click "Generate new private key" 
+-Download the JSON file 
+-Put this file in Config
